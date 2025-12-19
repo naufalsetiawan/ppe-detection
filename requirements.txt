@@ -1,5 +1,5 @@
-streamlit
-streamlit-webrtc
+streamlit==1.38.0
+streamlit-webrtc==0.47.6
 ultralytics
 opencv-python-headless
 pillow
