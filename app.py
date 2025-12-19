@@ -3,7 +3,7 @@ import cv2
 import numpy as np
 from ultralytics import YOLO
 from PIL import Image
-from streamlit_webrtc import webrtc_streamer, VideoTransformerBase
+from streamlit_webrtc import webrtc_streamer, VideoTransformerBase, WebRtcMode
 
 def is_inside(box_small, box_big):
     # IoA (Intersection over Area)
@@ -104,3 +104,4 @@ webrtc_streamer(
         "audio": False
     }
 )
+
