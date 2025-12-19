@@ -68,14 +68,16 @@ def process_frame(frame, model):
 
     return frame
 
-class VideoProcessor(VideoTransformerBase):
-    def __init__(self, model):
-        self.model = model
-
-    def transform(self, frame):
-        img = frame.to_ndarray(format="bgr24")  # langsung BGR
-        processed = process_frame(img, self.model)
-        return processed  # WebRTC otomatis menangani BGR
+def transform(self, frame):
+        # 1. Ambil frame dalam format BGR (OpenCV friendly)
+        img = frame.to_ndarray(format="bgr24")
+        
+        # 2. Proses deteksi (Output tetap BGR)
+        processed_bgr = process_frame(img, self.model)
+        
+        # 3. WAJIB: Convert balik ke RGB sebelum dikirim ke browser
+        # Ini sering jadi penyebab koneksi stuck/loading lama
+        return cv2.cvtColor(processed_bgr, cv2.COLOR_BGR2RGB)
 
 
 # --- WEB UI INTERFACE ---
@@ -104,4 +106,5 @@ webrtc_streamer(
         "audio": False
     }
 )
+
 
