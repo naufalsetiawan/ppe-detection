@@ -90,8 +90,17 @@ model = load_model()
 
 # Jalankan Kamera Langsung
 webrtc_streamer(
-    key="ppe-live",
+    key="ppe-detection",
     video_processor_factory=lambda: VideoProcessor(model),
-    rtc_configuration={"iceServers": [{"urls": ["stun:stun.l.google.com:19302"]}]},
-    media_stream_constraints={"video": True, "audio": False}
+    rtc_configuration={ 
+        "iceServers": [
+            {"urls": ["stun:stun.l.google.com:19302"]}, 
+            {"urls": ["stun:stun1.l.google.com:19302"]},
+            {"urls": ["stun:stun2.l.google.com:19302"]}
+        ]
+    },
+    media_stream_constraints={
+        "video": True,
+        "audio": False
+    }
 )
