@@ -68,38 +68,28 @@ def process_frame(frame, model):
 
     return frame
 
-class VideoProcessor(VideoTransformerBase):
-    def __init__(self, model):
-        self.model = model
+# ================= VIDEO PROCESSOR =================
+    class VideoProcessor(VideoProcessorBase):
+        def __init__(self):
+            self.model = YOLO("best.pt")
+    
+        def recv(self, frame):
+            img = frame.to_ndarray(format="bgr24")
+            img = process_frame(img, self.model)
+            return frame.from_ndarray(img, format="bgr24")
+    
 
-    def transform(self, frame):
-        img = frame.to_ndarray(format="bgr24")  # langsung BGR
-        processed = process_frame(img, self.model)
-        return processed  # WebRTC otomatis menangani BGR
-
-
-# --- WEB UI INTERFACE ---
-st.set_page_config(page_title="Real-Time PPE Detection System")
+# ================= UI =================
+st.set_page_config(page_title="Real-Time PPE Detection")
 st.title("Real-Time PPE Detection System")
 
-@st.cache_resource
-def load_model():
-    return YOLO("best.pt")
-
-model = load_model()
-
-# Jalankan Kamera Langsung
 webrtc_streamer(
-    key="ppe-live",
-    video_processor_factory=lambda: VideoProcessor(model),
-    rtc_configuration={
-        "iceServers": [
-            {"urls": ["stun:stun.l.google.com:19302"]},
-            {"urls": ["stun:stun1.l.google.com:19302"]},
-            {"urls": ["stun:stun2.l.google.com:19302"]},
-        ]
-    },
+    key="ppe",
+    video_processor_factory=VideoProcessor,
     media_stream_constraints={"video": True, "audio": False},
-    async_processing=True, # Menambah stabilitas pada pemrosesan YOLO
+    rtc_configuration={
+        "iceServers": [{"urls": ["stun:stun.l.google.com:19302"]}]
+    },
 )
+
 
