@@ -86,25 +86,24 @@ st.title("Real-Time PPE Detection System")
 
 webrtc_streamer(
     key="ppe",
-    mode=WebRtcMode.SENDRECV,
     video_processor_factory=lambda: VideoProcessor(),
     media_stream_constraints={"video": True, "audio": False},
-    client_settings=ClientSettings(
-        rtc_configuration={
-            "iceServers": [
-                {
-                    "urls": [
-                        "stun:global.stun.twilio.com:3478",
-                        "turn:global.turn.twilio.com:3478?transport=udp",
-                        "turn:global.turn.twilio.com:3478?transport=tcp",
-                    ],
-                    "username": st.secrets["TWILIO_ACCOUNT_SID"],
-                    "credential": st.secrets["TWILIO_AUTH_TOKEN"],
-                }
-            ]
-        }
-    ),
+    rtc_configuration={
+        "iceServers": [
+            {
+                "urls": [
+                    "stun:global.stun.twilio.com:3478",
+                    "turn:global.turn.twilio.com:3478?transport=udp",
+                    "turn:global.turn.twilio.com:3478?transport=tcp",
+                ],
+                "username": st.secrets["TWILIO_ACCOUNT_SID"],
+                "credential": st.secrets["TWILIO_AUTH_TOKEN"],
+            }
+        ]
+    },
 )
+
+
 
 
 
