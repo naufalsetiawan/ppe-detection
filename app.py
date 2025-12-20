@@ -101,7 +101,9 @@ webrtc_streamer(
             }
         ]
     },
+    async_processing=False,
 )
+
 
 
 
