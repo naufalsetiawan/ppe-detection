@@ -4,6 +4,7 @@ import numpy as np
 from ultralytics import YOLO
 from PIL import Image
 from streamlit_webrtc import webrtc_streamer, VideoProcessorBase
+import av
 
 def is_inside(box_small, box_big):
     # IoA (Intersection over Area)
@@ -76,8 +77,8 @@ def process_frame(frame, model):
         def recv(self, frame):
             img = frame.to_ndarray(format="bgr24")
             img = process_frame(img, self.model)
-            return frame.from_ndarray(img, format="bgr24")
-    
+            return av.VideoFrame.from_ndarray(img, format="bgr24")
+        
 
 # ================= UI =================
 st.set_page_config(page_title="Real-Time PPE Detection")
@@ -91,6 +92,7 @@ webrtc_streamer(
         "iceServers": [{"urls": ["stun:stun.l.google.com:19302"]}]
     },
 )
+
 
 
 
