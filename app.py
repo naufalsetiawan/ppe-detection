@@ -70,14 +70,14 @@ def process_frame(frame, model):
     return frame
 
 # ================= VIDEO PROCESSOR =================
-    class VideoProcessor(VideoProcessorBase):
-        def __init__(self):
-            self.model = YOLO("best.pt")
-    
-        def recv(self, frame):
-            img = frame.to_ndarray(format="bgr24")
-            img = process_frame(img, self.model)
-            return av.VideoFrame.from_ndarray(img, format="bgr24")
+class VideoProcessor(VideoProcessorBase):
+    def __init__(self):
+        self.model = YOLO("best.pt")
+
+    def recv(self, frame):
+        img = frame.to_ndarray(format="bgr24")
+        img = process_frame(img, self.model)
+        return av.VideoFrame.from_ndarray(img, format="bgr24")
         
 
 # ================= UI =================
@@ -92,6 +92,7 @@ webrtc_streamer(
         "iceServers": [{"urls": ["stun:stun.l.google.com:19302"]}]
     },
 )
+
 
 
 
