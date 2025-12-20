@@ -3,7 +3,7 @@ import cv2
 import numpy as np
 from ultralytics import YOLO
 from PIL import Image
-from streamlit_webrtc import webrtc_streamer, VideoProcessorBase, WebRtcMode, ClientSettings
+from streamlit_webrtc import webrtc_streamer, VideoProcessorBase
 import av
 
 def is_inside(box_small, box_big):
@@ -105,6 +105,7 @@ webrtc_streamer(
         }
     ),
 )
+
 
 
 
