@@ -88,10 +88,9 @@ webrtc_streamer(
     key="ppe",
     video_processor_factory=lambda: VideoProcessor(),
     media_stream_constraints={"video": True, "audio": False},
-    rtc_configuration={
-        "iceServers": [{"urls": ["stun:stun.l.google.com:19302"]}]
-    },
 )
+
+
 
 
 
